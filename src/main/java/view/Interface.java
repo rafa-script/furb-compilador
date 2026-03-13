@@ -61,16 +61,33 @@ public class Interface extends javax.swing.JFrame {
             addKeyBinding("F1", btnEquipe);
         }
             
+        /**
+         * Displays a message in the messages area of the interface.
+         * This method replaces any existing content in the messages text area
+         * with the provided message.
+         *
+         * @param message the message to be displayed in the messages area
+         */
         private void showMessage(String message) {
             txtMensagens.setText(message);
         }
         
+        /**
+         * Clears the main components of the interface.
+         * This method removes all text from the editor area, the messages area,
+         * and the status bar label.
+         */
         private void clean() {
             txtEditor.setText("");
             txtMensagens.setText("");
             lblStatus.setText("");
         }
         
+        /**
+         * Configures the scroll bar behavior for the editor and messages areas.
+         * Both horizontal and vertical scroll bars are set to always be visible
+         * in order to satisfy the interface requirements of the compiler.
+         */
         private void configureScrollBars() {
 
             scrollEditor.setHorizontalScrollBarPolicy(
@@ -90,6 +107,13 @@ public class Interface extends javax.swing.JFrame {
             );
         }
         
+        /**
+         * Configures the line numbering feature for the editor area.
+         * A secondary text area is used as a row header of the editor scroll pane
+         * to display line numbers. A document listener monitors changes in the
+         * editor content and updates the line numbers dynamically whenever text
+         * is inserted, removed, or modified.
+         */
         private void configureEditorLineNumbers() {
 
             JTextArea lineNumbers = new JTextArea("1");
