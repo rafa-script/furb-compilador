@@ -179,7 +179,7 @@ public class Interface extends javax.swing.JFrame {
         toolBar.setMaximumSize(new java.awt.Dimension(1490, 70));
         toolBar.setPreferredSize(new java.awt.Dimension(1500, 70));
 
-        btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\new-icon.png")); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/new-icon.png")); // NOI18N
         btnNovo.setText(" novo [ctrl-n]");
         btnNovo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnNovo.setFocusable(false);
@@ -195,7 +195,7 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnNovo);
 
-        btnAbrir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\open-file-icon.png")); // NOI18N
+        btnAbrir.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/open-file-icon.png")); // NOI18N
         btnAbrir.setText("abrir [ctrl-o]");
         btnAbrir.setAutoscrolls(true);
         btnAbrir.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -206,7 +206,7 @@ public class Interface extends javax.swing.JFrame {
         btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnAbrir);
 
-        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\save-icon.png")); // NOI18N
+        btnSalvar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/save-icon.png")); // NOI18N
         btnSalvar.setText("salvar [ctrl-s]");
         btnSalvar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnSalvar.setFocusable(false);
@@ -216,7 +216,7 @@ public class Interface extends javax.swing.JFrame {
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnSalvar);
 
-        btnCopiar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\copy-icon.png")); // NOI18N
+        btnCopiar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/copy-icon.png")); // NOI18N
         btnCopiar.setText("copiar [ctrl-c]");
         btnCopiar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCopiar.setFocusable(false);
@@ -226,7 +226,7 @@ public class Interface extends javax.swing.JFrame {
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnCopiar);
 
-        btnColar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\paste-icon.png")); // NOI18N
+        btnColar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/paste-icon.png")); // NOI18N
         btnColar.setText("colar  [ctrl-v]");
         btnColar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnColar.setFocusable(false);
@@ -236,7 +236,7 @@ public class Interface extends javax.swing.JFrame {
         btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnColar);
 
-        btnRecortar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\icons8-cut-24.png")); // NOI18N
+        btnRecortar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-cut-24.png")); // NOI18N
         btnRecortar.setText("recortar [ctrl-x]");
         btnRecortar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnRecortar.setFocusable(false);
@@ -246,7 +246,7 @@ public class Interface extends javax.swing.JFrame {
         btnRecortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnRecortar);
 
-        btnCompilar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\icons8-play-24.png")); // NOI18N
+        btnCompilar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-play-24.png")); // NOI18N
         btnCompilar.setText("compilar [F7]");
         btnCompilar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCompilar.setFocusable(false);
@@ -261,7 +261,7 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnCompilar);
 
-        btnEquipe.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\team-icon.png")); // NOI18N
+        btnEquipe.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/team-icon.png")); // NOI18N
         btnEquipe.setText(" equipe [F1]");
         btnEquipe.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEquipe.setFocusable(false);
