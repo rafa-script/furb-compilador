@@ -8,6 +8,11 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Interface extends javax.swing.JFrame {
     
@@ -27,6 +32,31 @@ public class Interface extends javax.swing.JFrame {
         txtMensagens.setEditable(false);
         lblStatus.setText("Nenhum arquivo aberto"); 
     }
+    
+    private java.io.File arquivoAtual = null; // arquivo novo a ser salvo
+    
+    private void salvarArquivo(java.io.File arquivo) {
+    try (java.io.BufferedWriter writer = new java.io.BufferedWriter(
+            new java.io.FileWriter(arquivo, java.nio.charset.StandardCharsets.UTF_8))) {
+
+        writer.write(txtEditor.getText());
+
+        // Limpa área de mensagens
+        txtMensagens.setText("");
+
+        // Atualiza barra de status apenas se arquivo novo (caso 1)
+        // No caso 2, lblStatus já está com o caminho correto — não altera
+        lblStatus.setText(arquivo.getAbsolutePath());
+
+    } catch (IOException ex) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Erro ao salvar o arquivo: " + ex.getMessage(),
+            "Erro",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -179,7 +209,6 @@ public class Interface extends javax.swing.JFrame {
         toolBar.setMaximumSize(new java.awt.Dimension(1490, 70));
         toolBar.setPreferredSize(new java.awt.Dimension(1500, 70));
 
-        btnNovo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\new-icon.png")); // NOI18N
         btnNovo.setText(" novo [ctrl-n]");
         btnNovo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnNovo.setFocusable(false);
@@ -195,7 +224,6 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnNovo);
 
-        btnAbrir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\open-file-icon.png")); // NOI18N
         btnAbrir.setText("abrir [ctrl-o]");
         btnAbrir.setAutoscrolls(true);
         btnAbrir.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -204,9 +232,13 @@ public class Interface extends javax.swing.JFrame {
         btnAbrir.setMaximumSize(new java.awt.Dimension(120, 60));
         btnAbrir.setPreferredSize(new java.awt.Dimension(120, 60));
         btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
         toolBar.add(btnAbrir);
 
-        btnSalvar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\save-icon.png")); // NOI18N
         btnSalvar.setText("salvar [ctrl-s]");
         btnSalvar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnSalvar.setFocusable(false);
@@ -214,9 +246,13 @@ public class Interface extends javax.swing.JFrame {
         btnSalvar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnSalvar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnSalvar);
 
-        btnCopiar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\copy-icon.png")); // NOI18N
         btnCopiar.setText("copiar [ctrl-c]");
         btnCopiar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCopiar.setFocusable(false);
@@ -224,9 +260,13 @@ public class Interface extends javax.swing.JFrame {
         btnCopiar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnCopiar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCopiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCopiarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnCopiar);
 
-        btnColar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\paste-icon.png")); // NOI18N
         btnColar.setText("colar  [ctrl-v]");
         btnColar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnColar.setFocusable(false);
@@ -234,9 +274,13 @@ public class Interface extends javax.swing.JFrame {
         btnColar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnColar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnColar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnColar);
 
-        btnRecortar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\icons8-cut-24.png")); // NOI18N
         btnRecortar.setText("recortar [ctrl-x]");
         btnRecortar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnRecortar.setFocusable(false);
@@ -244,9 +288,13 @@ public class Interface extends javax.swing.JFrame {
         btnRecortar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnRecortar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnRecortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRecortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecortarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnRecortar);
 
-        btnCompilar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\icons8-play-24.png")); // NOI18N
         btnCompilar.setText("compilar [F7]");
         btnCompilar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCompilar.setFocusable(false);
@@ -261,7 +309,6 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnCompilar);
 
-        btnEquipe.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rafael Carvalho\\Documents\\NetBeansProjects\\compilador\\src\\resources\\assets\\icons\\team-icon.png")); // NOI18N
         btnEquipe.setText(" equipe [F1]");
         btnEquipe.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEquipe.setFocusable(false);
@@ -338,6 +385,7 @@ public class Interface extends javax.swing.JFrame {
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         clean();
+        arquivoAtual = null;
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompilarActionPerformed
@@ -347,6 +395,90 @@ public class Interface extends javax.swing.JFrame {
     private void btnEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEquipeActionPerformed
         showMessage("Equipe: Júlia Passos e Rafael Carvalho");
     }//GEN-LAST:event_btnEquipeActionPerformed
+
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "Arquivos de texto (*.txt)", "txt"
+    );
+    fileChooser.setFileFilter(filter);
+    fileChooser.setAcceptAllFileFilterUsed(false);
+
+    int resultado = fileChooser.showOpenDialog(this);
+
+    if (resultado == JFileChooser.APPROVE_OPTION) {
+        java.io.File arquivo = fileChooser.getSelectedFile();
+        arquivoAtual = arquivo;
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(arquivo, java.nio.charset.StandardCharsets.UTF_8))) {
+
+            StringBuilder conteudo = new StringBuilder();
+            String linha;
+
+            while ((linha = reader.readLine()) != null) {
+                conteudo.append(linha).append("\n");
+            }
+
+            txtEditor.setText(conteudo.toString());
+            txtMensagens.setText("");
+            lblStatus.setText(arquivo.getAbsolutePath());
+
+        } catch (IOException ex) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Erro ao ler o arquivo: " + ex.getMessage(),
+                "Erro",
+                javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    }//GEN-LAST:event_btnAbrirActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        if (arquivoAtual == null) {
+        // (1) Arquivo novo — abre diálogo para escolher pasta/nome
+        JFileChooser fileChooser = new JFileChooser();
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Arquivos de texto (*.txt)", "txt"
+        );
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+
+        int resultado = fileChooser.showSaveDialog(this);
+
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            java.io.File arquivo = fileChooser.getSelectedFile();
+
+            // Garante a extensão .txt
+            if (!arquivo.getName().toLowerCase().endsWith(".txt")) {
+                arquivo = new java.io.File(arquivo.getAbsolutePath() + ".txt");
+            }
+
+            arquivoAtual = arquivo; // guarda referência para próximos salvamentos
+            salvarArquivo(arquivoAtual);
+        }
+        // Se cancelou: não faz nada
+
+    } else {
+        // (2) Arquivo já existe — salva direto sem abrir diálogo
+        salvarArquivo(arquivoAtual);
+    }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
+        txtEditor.copy();
+    }//GEN-LAST:event_btnCopiarActionPerformed
+
+    private void btnColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColarActionPerformed
+        txtEditor.paste();
+    }//GEN-LAST:event_btnColarActionPerformed
+
+    private void btnRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecortarActionPerformed
+        txtEditor.cut();
+    }//GEN-LAST:event_btnRecortarActionPerformed
 
     /**
      * @param args the command line arguments
