@@ -27,37 +27,45 @@ public class Interface extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         configureKeyBindings();
-        configureKeyBindings();
         configureScrollBars();
         configureEditorLineNumbers();
         txtMensagens.setEditable(false);
         lblStatus.setText("Nenhum arquivo aberto"); 
     }
     
-    private java.io.File arquivoAtual = null; // arquivo novo a ser salvo
+    private java.io.File currentFile = null;
     
-    private void salvarArquivo(java.io.File arquivo) {
-    try (java.io.BufferedWriter writer = new java.io.BufferedWriter(
-            new java.io.FileWriter(arquivo))) {
+        /**
+         * Writes the current editor content to the specified file.
+         *
+         * The text from the editor is written using a BufferedWriter.
+         * After saving, the message area is cleared and the status
+         * label is updated with the file path.
+         *
+         * If an error occurs during the writing process, an error
+         * message is displayed to the user.
+         *
+         * @param arquivo the file where the editor content will be saved
+         */
+        private void saveFile(java.io.File arquivo) {
+            try (java.io.BufferedWriter writer = new java.io.BufferedWriter(
+                    new java.io.FileWriter(arquivo))) {
 
-        writer.write(txtEditor.getText());
+                writer.write(txtEditor.getText());
 
-        // Limpa área de mensagens
-        txtMensagens.setText("");
+                txtMensagens.setText("");
 
-        // Atualiza barra de status apenas se arquivo novo (caso 1)
-        // No caso 2, lblStatus já está com o caminho correto — não altera
-        lblStatus.setText(arquivo.getAbsolutePath());
+                lblStatus.setText(arquivo.getAbsolutePath());
 
-    } catch (IOException ex) {
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "Erro ao salvar o arquivo: " + ex.getMessage(),
-            "Erro",
-            javax.swing.JOptionPane.ERROR_MESSAGE
-        );
-    }
-}
+            } catch (IOException ex) {
+                javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao salvar o arquivo: " + ex.getMessage(),
+                    "Erro",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -207,7 +215,7 @@ public class Interface extends javax.swing.JFrame {
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 java.io.File file = fileChooser.getSelectedFile();
-                File currentFile = file;
+                currentFile = file;
 
                 try (BufferedReader reader = new BufferedReader(
                         new FileReader(file))) {
@@ -245,7 +253,7 @@ public class Interface extends javax.swing.JFrame {
          * directly to that file.
          */
         private void saveFileAction() {
-            if (arquivoAtual == null) {
+            if (currentFile == null) {
                 JFileChooser fileChooser = new JFileChooser();
 
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -263,12 +271,12 @@ public class Interface extends javax.swing.JFrame {
                         file = new java.io.File(file.getAbsolutePath() + ".txt");
                     }
 
-                    arquivoAtual = file;
-                    salvarArquivo(arquivoAtual);
+                    currentFile = file;
+                    saveFile(currentFile);
                 }
 
             } else {
-                salvarArquivo(arquivoAtual);
+                saveFile(currentFile);
             }
         }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -483,7 +491,7 @@ public class Interface extends javax.swing.JFrame {
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         clean();
-        arquivoAtual = null;
+        currentFile = null;
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompilarActionPerformed
