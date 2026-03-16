@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 
 public class Interface extends javax.swing.JFrame {
     
@@ -26,6 +27,7 @@ public class Interface extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
+        addIcons();
         configureKeyBindings();
         configureScrollBars();
         configureEditorLineNumbers();
@@ -279,6 +281,18 @@ public class Interface extends javax.swing.JFrame {
                 saveFile(currentFile);
             }
         }
+        
+        private void addIcons() {
+
+            btnNovo.setIcon(new ImageIcon(getClass().getResource("/assets/icons/new-icon.png")));
+            btnAbrir.setIcon(new ImageIcon(getClass().getResource("/assets/icons/open-file-icon.png")));
+            btnSalvar.setIcon(new ImageIcon(getClass().getResource("/assets/icons/save-icon.png")));
+            btnCopiar.setIcon(new ImageIcon(getClass().getResource("/assets/icons/copy-icon.png")));
+            btnColar.setIcon(new ImageIcon(getClass().getResource("/assets/icons/paste-icon.png")));
+            btnRecortar.setIcon(new ImageIcon(getClass().getResource("/assets/icons/icons8-cut-24.png")));
+            btnCompilar.setIcon(new ImageIcon(getClass().getResource("/assets/icons/icons8-play-24.png")));
+            btnEquipe.setIcon(new ImageIcon(getClass().getResource("/assets/icons/team-icon.png")));
+        }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -306,7 +320,6 @@ public class Interface extends javax.swing.JFrame {
         toolBar.setMaximumSize(new java.awt.Dimension(1490, 70));
         toolBar.setPreferredSize(new java.awt.Dimension(1500, 70));
 
-        btnNovo.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/new-icon.png"));
         btnNovo.setText(" novo [ctrl-n]");
         btnNovo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnNovo.setFocusable(false);
@@ -322,7 +335,6 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnNovo);
 
-        btnAbrir.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/open-file-icon.png")); // NOI18N
         btnAbrir.setText("abrir [ctrl-o]");
         btnAbrir.setAutoscrolls(true);
         btnAbrir.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -331,14 +343,8 @@ public class Interface extends javax.swing.JFrame {
         btnAbrir.setMaximumSize(new java.awt.Dimension(120, 60));
         btnAbrir.setPreferredSize(new java.awt.Dimension(120, 60));
         btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAbrirActionPerformed(evt);
-            }
-        });
         toolBar.add(btnAbrir);
 
-        btnSalvar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/save-icon.png")); // NOI18N
         btnSalvar.setText("salvar [ctrl-s]");
         btnSalvar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnSalvar.setFocusable(false);
@@ -346,14 +352,8 @@ public class Interface extends javax.swing.JFrame {
         btnSalvar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnSalvar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
         toolBar.add(btnSalvar);
 
-        btnCopiar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/copy-icon.png"));
         btnCopiar.setText("copiar [ctrl-c]");
         btnCopiar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCopiar.setFocusable(false);
@@ -361,14 +361,8 @@ public class Interface extends javax.swing.JFrame {
         btnCopiar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnCopiar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCopiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCopiarActionPerformed(evt);
-            }
-        });
         toolBar.add(btnCopiar);
 
-        btnColar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/paste-icon.png"));
         btnColar.setText("colar  [ctrl-v]");
         btnColar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnColar.setFocusable(false);
@@ -376,14 +370,8 @@ public class Interface extends javax.swing.JFrame {
         btnColar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnColar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnColar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnColarActionPerformed(evt);
-            }
-        });
         toolBar.add(btnColar);
 
-        btnRecortar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-cut-24.png"));
         btnRecortar.setText("recortar [ctrl-x]");
         btnRecortar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnRecortar.setFocusable(false);
@@ -391,14 +379,8 @@ public class Interface extends javax.swing.JFrame {
         btnRecortar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnRecortar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnRecortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnRecortar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRecortarActionPerformed(evt);
-            }
-        });
         toolBar.add(btnRecortar);
 
-        btnCompilar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-play-24.png"));
         btnCompilar.setText("compilar [F7]");
         btnCompilar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCompilar.setFocusable(false);
@@ -413,8 +395,6 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnCompilar);
 
-        
-        btnEquipe.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/team-icon.png"));
         btnEquipe.setText(" equipe [F1]");
         btnEquipe.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEquipe.setFocusable(false);
