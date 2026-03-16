@@ -11,6 +11,7 @@ import javax.swing.KeyStroke;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -181,6 +182,94 @@ public class Interface extends javax.swing.JFrame {
                     lineNumbers.setText(getText());
                 }
             });
+        }
+        
+        /**
+         * Opens a text file selected by the user and loads its content into the editor.
+         * 
+         * A file chooser is displayed allowing only .txt files. If the user selects
+         * a file, its content is read line by line and inserted into the text editor.
+         * The current file reference is updated and the status label displays the
+         * file path.
+         * 
+         * If an error occurs while reading the file, an error message is shown.
+         */
+        private void openFile() {
+            JFileChooser fileChooser = new JFileChooser();
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Arquivos de texto (*.txt)", "txt"
+            );
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+
+            int result = fileChooser.showOpenDialog(this);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                java.io.File file = fileChooser.getSelectedFile();
+                File currentFile = file;
+
+                try (BufferedReader reader = new BufferedReader(
+                        new FileReader(file))) {
+
+                    StringBuilder content = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        content.append(line).append("\n");
+                    }
+
+                    txtEditor.setText(content.toString());
+                    txtMensagens.setText("");
+                    lblStatus.setText(file.getAbsolutePath());
+
+                } catch (IOException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(
+                        this,
+                        "Erro ao ler o arquivo: " + ex.getMessage(),
+                        "Erro",
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        }
+        
+        /**
+         * Saves the content of the editor to a file.
+         * 
+         * If there is no current file associated with the editor, a save dialog
+         * is displayed allowing the user to choose the file location and name.
+         * The file extension ".txt" is automatically added if it is not provided.
+         * 
+         * If a file is already associated with the editor, the content is saved
+         * directly to that file.
+         */
+        private void saveFileAction() {
+            if (arquivoAtual == null) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Arquivos de texto (*.txt)", "txt"
+                );
+                fileChooser.setFileFilter(filter);
+                fileChooser.setAcceptAllFileFilterUsed(false);
+
+                int result = fileChooser.showSaveDialog(this);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    java.io.File file = fileChooser.getSelectedFile();
+
+                    if (!file.getName().toLowerCase().endsWith(".txt")) {
+                        file = new java.io.File(file.getAbsolutePath() + ".txt");
+                    }
+
+                    arquivoAtual = file;
+                    salvarArquivo(arquivoAtual);
+                }
+
+            } else {
+                salvarArquivo(arquivoAtual);
+            }
         }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -406,75 +495,11 @@ public class Interface extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEquipeActionPerformed
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "Arquivos de texto (*.txt)", "txt"
-    );
-    fileChooser.setFileFilter(filter);
-    fileChooser.setAcceptAllFileFilterUsed(false);
-
-    int resultado = fileChooser.showOpenDialog(this);
-
-    if (resultado == JFileChooser.APPROVE_OPTION) {
-        java.io.File arquivo = fileChooser.getSelectedFile();
-        arquivoAtual = arquivo;
-
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(arquivo))) {
-
-            StringBuilder conteudo = new StringBuilder();
-            String linha;
-
-            while ((linha = reader.readLine()) != null) {
-                conteudo.append(linha).append("\n");
-            }
-
-            txtEditor.setText(conteudo.toString());
-            txtMensagens.setText("");
-            lblStatus.setText(arquivo.getAbsolutePath());
-
-        } catch (IOException ex) {
-            javax.swing.JOptionPane.showMessageDialog(
-                this,
-                "Erro ao ler o arquivo: " + ex.getMessage(),
-                "Erro",
-                javax.swing.JOptionPane.ERROR_MESSAGE
-            );
-        }
-    }
+        openFile();
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (arquivoAtual == null) {
-        // (1) Arquivo novo — abre diálogo para escolher pasta/nome
-        JFileChooser fileChooser = new JFileChooser();
-        
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "Arquivos de texto (*.txt)", "txt"
-        );
-        fileChooser.setFileFilter(filter);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-
-        int resultado = fileChooser.showSaveDialog(this);
-
-        if (resultado == JFileChooser.APPROVE_OPTION) {
-            java.io.File arquivo = fileChooser.getSelectedFile();
-
-            // Garante a extensão .txt
-            if (!arquivo.getName().toLowerCase().endsWith(".txt")) {
-                arquivo = new java.io.File(arquivo.getAbsolutePath() + ".txt");
-            }
-
-            arquivoAtual = arquivo; // guarda referência para próximos salvamentos
-            salvarArquivo(arquivoAtual);
-        }
-        // Se cancelou: não faz nada
-
-    } else {
-        // (2) Arquivo já existe — salva direto sem abrir diálogo
-        salvarArquivo(arquivoAtual);
-    }
+        saveFileAction();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
