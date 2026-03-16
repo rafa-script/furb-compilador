@@ -32,6 +32,7 @@ public class Interface extends javax.swing.JFrame {
         configureScrollBars();
         configureEditorLineNumbers();
         txtMensagens.setEditable(false);
+        toolBar.setFloatable(false);
     }
     
     private java.io.File currentFile = null;
