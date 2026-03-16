@@ -32,7 +32,6 @@ public class Interface extends javax.swing.JFrame {
         configureScrollBars();
         configureEditorLineNumbers();
         txtMensagens.setEditable(false);
-        lblStatus.setText("Nenhum arquivo aberto"); 
     }
     
     private java.io.File currentFile = null;
@@ -343,6 +342,11 @@ public class Interface extends javax.swing.JFrame {
         btnAbrir.setMaximumSize(new java.awt.Dimension(120, 60));
         btnAbrir.setPreferredSize(new java.awt.Dimension(120, 60));
         btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
         toolBar.add(btnAbrir);
 
         btnSalvar.setText("salvar [ctrl-s]");
@@ -352,6 +356,11 @@ public class Interface extends javax.swing.JFrame {
         btnSalvar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnSalvar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnSalvar);
 
         btnCopiar.setText("copiar [ctrl-c]");
@@ -361,6 +370,11 @@ public class Interface extends javax.swing.JFrame {
         btnCopiar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnCopiar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCopiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCopiarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnCopiar);
 
         btnColar.setText("colar  [ctrl-v]");
@@ -370,6 +384,11 @@ public class Interface extends javax.swing.JFrame {
         btnColar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnColar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnColar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnColar);
 
         btnRecortar.setText("recortar [ctrl-x]");
@@ -379,6 +398,11 @@ public class Interface extends javax.swing.JFrame {
         btnRecortar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnRecortar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnRecortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRecortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecortarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnRecortar);
 
         btnCompilar.setText("compilar [F7]");
