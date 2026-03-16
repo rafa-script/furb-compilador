@@ -8,6 +8,12 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Interface extends javax.swing.JFrame {
     
@@ -21,12 +27,45 @@ public class Interface extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         configureKeyBindings();
-        configureKeyBindings();
         configureScrollBars();
         configureEditorLineNumbers();
         txtMensagens.setEditable(false);
         lblStatus.setText("Nenhum arquivo aberto"); 
     }
+    
+    private java.io.File currentFile = null;
+    
+        /**
+         * Writes the current editor content to the specified file.
+         *
+         * The text from the editor is written using a BufferedWriter.
+         * After saving, the message area is cleared and the status
+         * label is updated with the file path.
+         *
+         * If an error occurs during the writing process, an error
+         * message is displayed to the user.
+         *
+         * @param arquivo the file where the editor content will be saved
+         */
+        private void saveFile(java.io.File arquivo) {
+            try (java.io.BufferedWriter writer = new java.io.BufferedWriter(
+                    new java.io.FileWriter(arquivo))) {
+
+                writer.write(txtEditor.getText());
+
+                txtMensagens.setText("");
+
+                lblStatus.setText(arquivo.getAbsolutePath());
+
+            } catch (IOException ex) {
+                javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao salvar o arquivo: " + ex.getMessage(),
+                    "Erro",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -152,6 +191,94 @@ public class Interface extends javax.swing.JFrame {
                 }
             });
         }
+        
+        /**
+         * Opens a text file selected by the user and loads its content into the editor.
+         * 
+         * A file chooser is displayed allowing only .txt files. If the user selects
+         * a file, its content is read line by line and inserted into the text editor.
+         * The current file reference is updated and the status label displays the
+         * file path.
+         * 
+         * If an error occurs while reading the file, an error message is shown.
+         */
+        private void openFile() {
+            JFileChooser fileChooser = new JFileChooser();
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Arquivos de texto (*.txt)", "txt"
+            );
+            fileChooser.setFileFilter(filter);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+
+            int result = fileChooser.showOpenDialog(this);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                java.io.File file = fileChooser.getSelectedFile();
+                currentFile = file;
+
+                try (BufferedReader reader = new BufferedReader(
+                        new FileReader(file))) {
+
+                    StringBuilder content = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        content.append(line).append("\n");
+                    }
+
+                    txtEditor.setText(content.toString());
+                    txtMensagens.setText("");
+                    lblStatus.setText(file.getAbsolutePath());
+
+                } catch (IOException ex) {
+                    javax.swing.JOptionPane.showMessageDialog(
+                        this,
+                        "Erro ao ler o arquivo: " + ex.getMessage(),
+                        "Erro",
+                        javax.swing.JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        }
+        
+        /**
+         * Saves the content of the editor to a file.
+         * 
+         * If there is no current file associated with the editor, a save dialog
+         * is displayed allowing the user to choose the file location and name.
+         * The file extension ".txt" is automatically added if it is not provided.
+         * 
+         * If a file is already associated with the editor, the content is saved
+         * directly to that file.
+         */
+        private void saveFileAction() {
+            if (currentFile == null) {
+                JFileChooser fileChooser = new JFileChooser();
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Arquivos de texto (*.txt)", "txt"
+                );
+                fileChooser.setFileFilter(filter);
+                fileChooser.setAcceptAllFileFilterUsed(false);
+
+                int result = fileChooser.showSaveDialog(this);
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    java.io.File file = fileChooser.getSelectedFile();
+
+                    if (!file.getName().toLowerCase().endsWith(".txt")) {
+                        file = new java.io.File(file.getAbsolutePath() + ".txt");
+                    }
+
+                    currentFile = file;
+                    saveFile(currentFile);
+                }
+
+            } else {
+                saveFile(currentFile);
+            }
+        }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -179,7 +306,7 @@ public class Interface extends javax.swing.JFrame {
         toolBar.setMaximumSize(new java.awt.Dimension(1490, 70));
         toolBar.setPreferredSize(new java.awt.Dimension(1500, 70));
 
-        btnNovo.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/new-icon.png")); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/new-icon.png"));
         btnNovo.setText(" novo [ctrl-n]");
         btnNovo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnNovo.setFocusable(false);
@@ -204,6 +331,11 @@ public class Interface extends javax.swing.JFrame {
         btnAbrir.setMaximumSize(new java.awt.Dimension(120, 60));
         btnAbrir.setPreferredSize(new java.awt.Dimension(120, 60));
         btnAbrir.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
         toolBar.add(btnAbrir);
 
         btnSalvar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/save-icon.png")); // NOI18N
@@ -214,9 +346,14 @@ public class Interface extends javax.swing.JFrame {
         btnSalvar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnSalvar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnSalvar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnSalvar);
 
-        btnCopiar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/copy-icon.png")); // NOI18N
+        btnCopiar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/copy-icon.png"));
         btnCopiar.setText("copiar [ctrl-c]");
         btnCopiar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCopiar.setFocusable(false);
@@ -224,9 +361,14 @@ public class Interface extends javax.swing.JFrame {
         btnCopiar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnCopiar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnCopiar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCopiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCopiarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnCopiar);
 
-        btnColar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/paste-icon.png")); // NOI18N
+        btnColar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/paste-icon.png"));
         btnColar.setText("colar  [ctrl-v]");
         btnColar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnColar.setFocusable(false);
@@ -234,9 +376,14 @@ public class Interface extends javax.swing.JFrame {
         btnColar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnColar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnColar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnColar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnColar);
 
-        btnRecortar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-cut-24.png")); // NOI18N
+        btnRecortar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-cut-24.png"));
         btnRecortar.setText("recortar [ctrl-x]");
         btnRecortar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnRecortar.setFocusable(false);
@@ -244,9 +391,14 @@ public class Interface extends javax.swing.JFrame {
         btnRecortar.setMaximumSize(new java.awt.Dimension(120, 60));
         btnRecortar.setPreferredSize(new java.awt.Dimension(120, 60));
         btnRecortar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRecortar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecortarActionPerformed(evt);
+            }
+        });
         toolBar.add(btnRecortar);
 
-        btnCompilar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-play-24.png")); // NOI18N
+        btnCompilar.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/icons8-play-24.png"));
         btnCompilar.setText("compilar [F7]");
         btnCompilar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCompilar.setFocusable(false);
@@ -261,7 +413,8 @@ public class Interface extends javax.swing.JFrame {
         });
         toolBar.add(btnCompilar);
 
-        btnEquipe.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/team-icon.png")); // NOI18N
+        
+        btnEquipe.setIcon(new javax.swing.ImageIcon("./src/resources/assets/icons/team-icon.png"));
         btnEquipe.setText(" equipe [F1]");
         btnEquipe.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEquipe.setFocusable(false);
@@ -338,6 +491,7 @@ public class Interface extends javax.swing.JFrame {
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         clean();
+        currentFile = null;
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompilarActionPerformed
@@ -347,6 +501,26 @@ public class Interface extends javax.swing.JFrame {
     private void btnEquipeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEquipeActionPerformed
         showMessage("Equipe: Júlia Passos e Rafael Carvalho");
     }//GEN-LAST:event_btnEquipeActionPerformed
+
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+        openFile();
+    }//GEN-LAST:event_btnAbrirActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        saveFileAction();
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
+        txtEditor.copy();
+    }//GEN-LAST:event_btnCopiarActionPerformed
+
+    private void btnColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColarActionPerformed
+        txtEditor.paste();
+    }//GEN-LAST:event_btnColarActionPerformed
+
+    private void btnRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecortarActionPerformed
+        txtEditor.cut();
+    }//GEN-LAST:event_btnRecortarActionPerformed
 
     /**
      * @param args the command line arguments
